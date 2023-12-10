@@ -15,8 +15,8 @@ def get_operations_data(operations: list[dict]) -> list[Operation]:
     """
     operations_data = []
     for operation in operations:
-        if operation:
-            operations_data = Operation(
+        if operation and operation["state"] == "EXECUTED":
+            operation_data = Operation(
                 pk=operation["id"],
                 date=operation["date"],
                 state=operation["state"],
@@ -25,5 +25,5 @@ def get_operations_data(operations: list[dict]) -> list[Operation]:
                 from_=operation.get("from", ""),
                 to_=operation["to"]
                 )
-            operations_data.append(operations_data)
+            operations_data.append(operation_data)
     return operations_data
