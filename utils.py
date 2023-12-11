@@ -25,9 +25,11 @@ def get_operations_data(operations: list[dict]) -> list[Operation]:
                 description=operation["description"],
                 from_=operation.get("from", ""),
                 to_=operation["to"]
-                )
+            )
             operations_data.append(operation_data)
     return operations_data
+
+
 def sort_date(operations: list[Operation]) -> list[Operation]:
     """
     Сортировка списка операций по дате совершения.

@@ -4,7 +4,7 @@ from datetime import datetime
 class Operation:
     def __init__(self, id_: int, date: str, state: str, operation_amount: dict, description: str, from_: str, to_: str):
         self.id_ = id_
-        self.date = self.date_converter(date)
+        self.date = self.date_converter(date) if date else ""
         self.state = state
         self.operation_amount = operation_amount
         self.description = description
@@ -17,15 +17,15 @@ class Operation:
         """
         if card_or_account.startswith("Счет"):
             info = card_or_account.split()[1]
-            return f"Счёт ****{info[:4]}"
+            return f"Счёт ****{info[-4:]}"
         elif card_or_account.startswith("Visa"):
             cart_info = " ".join(card_or_account.split()[:2])
             info = card_or_account.split()[2]
-            return f"{cart_info} {info[:4]} {info[5:7]}** **** {info[-4:]}"
-        else:
+            return f"{cart_info} {info[:4]} {info[4:6]}** **** {info[-4:]}"
+        elif card_or_account.startswith("Maestro") or card_or_account.startswith("MasterCard"):
             cart_info = card_or_account.split()[0]
             info = card_or_account.split()[1]
-            return f"{cart_info} {info[:4]} {info[5:7]}** **** {info[-4:]}"
+            return f"{cart_info} {info[:4]} {info[4:6]}** **** {info[-4:]}"
 
     def date_converter(self, date: str) -> datetime:
         """
@@ -37,6 +37,6 @@ class Operation:
         """
         Реализация формата вывода для каждой операции.
         """
-        return f"""{datetime.strftime(self.date,'%d.%m.%Y')} {self.description}
+        return f"""{datetime.strftime(self.date, '%d.%m.%Y')} {self.description}
 {self.from_} -> {self.to_}
 {self.operation_amount['amount']} {self.operation_amount['currency']['name']}\n"""
